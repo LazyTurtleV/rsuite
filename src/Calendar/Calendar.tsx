@@ -39,6 +39,9 @@ export interface CalendarProps extends WithAsProps {
 
   /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;
+
+  /** Custom render calendar header  */
+  renderCalendarHeader?: (date: Date) => React.ReactNode;
 }
 
 const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
@@ -56,6 +59,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       onMonthChange,
       onSelect,
       renderCell,
+      renderCalendarHeader,
       value,
       ...rest
     } = props;
@@ -106,6 +110,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
     );
 
     const customRenderCell = useCallback((date: Date) => renderCell?.(date), [renderCell]);
+    const customRenderHeader = useCallback((date: Date) => renderCalendarHeader?.(date), [renderCalendarHeader])
 
     const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
 
@@ -125,6 +130,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         )}
         renderToolbar={renderToolbar}
         renderCell={customRenderCell}
+        renderHeader={customRenderHeader}
         onMoveForward={handleMonthChange}
         onMoveBackward={handleMonthChange}
         onChangeMonth={handleMonthChange}
