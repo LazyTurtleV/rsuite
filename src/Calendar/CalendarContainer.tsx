@@ -99,6 +99,9 @@ export interface CalendarProps
   /** Custom rendering cell*/
   renderCell?: (date: Date) => React.ReactNode;
 
+  /** Custom render calendar header  */
+  renderHeader?: (date: Date) => React.ReactNode;
+
   /** Called when opening the month view */
   onToggleMonthDropdown?: (toggle: boolean) => void;
 
@@ -134,6 +137,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onToggleTimeDropdown,
       calendarDate,
       renderCell,
+      renderHeader,
       renderTitle,
       renderToolbar,
       showMeridian,
@@ -257,22 +261,25 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
           className={calendarClasses}
           ref={ref}
         >
-          <CalendarHeader
-            showMonth={renderMonth}
-            showDate={renderDate}
-            showTime={renderTime}
-            showMeridian={showMeridian}
-            disabledTime={isTimeDisabled}
-            onMoveForward={handleMoveForward}
-            onMoveBackward={handleMoveBackward}
-            onToggleMonthDropdown={toggleMonthView}
-            onToggleTimeDropdown={toggleTimeView}
-            onToggleMeridian={onToggleMeridian}
-            renderTitle={renderTitle}
-            renderToolbar={renderToolbar}
-            disabledBackward={disabledBackward}
-            disabledForward={disabledForward}
-          />
+          {renderHeader
+            ? renderHeader(calendarDate) 
+            : <CalendarHeader
+                showMonth={renderMonth}
+                showDate={renderDate}
+                showTime={renderTime}
+                showMeridian={showMeridian}
+                disabledTime={isTimeDisabled}
+                onMoveForward={handleMoveForward}
+                onMoveBackward={handleMoveBackward}
+                onToggleMonthDropdown={toggleMonthView}
+                onToggleTimeDropdown={toggleTimeView}
+                onToggleMeridian={onToggleMeridian}
+                renderTitle={renderTitle}
+                renderToolbar={renderToolbar}
+                disabledBackward={disabledBackward}
+                disabledForward={disabledForward}
+              />
+          }
           {renderDate && <CalendarBody />}
           {renderMonth && (
             <MonthDropdown
